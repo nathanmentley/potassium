@@ -10,3 +10,33 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 package potassium
 
+import (
+    "testing"
+)
+
+
+func TestComponentWrapperGetParent(t *testing.T) {
+    component := NewComponent(nil)
+    componentWrapper := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, &MockProps{}, []IComponentProcessor{})
+
+    if componentWrapper.GetParent() != nil {
+        t.Errorf("Expected component.getParent() to match passed in parent processor.")
+    }
+}
+
+func TestComponentWrapperGetProps(t *testing.T) {
+    component := NewComponent(nil)
+    props := &MockProps{}
+    componentWrapper := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, props, []IComponentProcessor{})
+
+    if componentWrapper.GetProps() != props {
+        t.Errorf("Expected component.GetProps() should get the props.")
+    }
+
+    props2 := &MockProps{}
+    componentWrapper.setProps(props2)
+    if componentWrapper.GetProps() != props2 {
+        t.Errorf("Expected component.GetProps() should update the props.")
+    }
+
+}
