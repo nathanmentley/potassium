@@ -38,5 +38,4 @@ func TestComponentWrapperGetProps(t *testing.T) {
     if componentWrapper.GetProps() != props2 {
         t.Errorf("Expected component.GetProps() should update the props.")
     }
-
 }

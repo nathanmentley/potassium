@@ -113,13 +113,17 @@ func (c *ComponentWrapper) render() *RenderResult {
         c.component.ComponentWillUpdate(c)
         ret := c.component.Render(c)
 
-        for _, child := range ret.Children {
+        for index, child := range ret.Children {
             didMount := child.mount(c, c.toolkit)
             child.render()
 
             if didMount {
                 if c.toolkit != nil {
-                    c.toolkit.Mount(c, child)
+                    c.toolkit.Mount(c, child, index)
+                }
+            } else {
+                if c.toolkit != nil {
+                    c.toolkit.EnsureMount(c, child, index)
                 }
             }
         }

@@ -10,6 +10,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 package potassium
 
+//Mock Classes
 type MockProps struct {}
 type MockState struct {}
 
@@ -35,7 +36,7 @@ type MockComponent struct {
     Component
 }
 func (m *MockComponent) SetInitialState(props IProps) IState { return &MockState{} }
-func (m *MockComponent) Render(processor IComponentProcessor) *RenderResult { return nil }
+func (m *MockComponent) Render(processor IComponentProcessor) *RenderResult { return &RenderResult{[]IComponentProcessor{}} }
 func NewMockComponent(parent IComponentProcessor) IComponent {
     return &MockComponent{NewComponent(parent)}
 }

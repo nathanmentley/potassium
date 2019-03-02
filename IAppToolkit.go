@@ -16,6 +16,7 @@ type IAppToolkit interface {
     IsRunning() bool
     Shutdown()
 
-    Mount(parent IComponentProcessor, child IComponentProcessor)
+    Mount(parent IComponentProcessor, child IComponentProcessor, index int)
+    EnsureMount(parent IComponentProcessor, child IComponentProcessor, index int)
     Unmount(parent IComponentProcessor, child IComponentProcessor)
 }
