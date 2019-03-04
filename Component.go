@@ -18,6 +18,9 @@ func NewComponent(parent IComponentProcessor) Component {
     return Component{parent, make(map[string]IComponentProcessor)}
 }
 
+func (c *Component) SetInitialState(props IProps) IState {
+    return EmptyState{}
+}
 func (c *Component) ShouldComponentUpdate(processor IComponentProcessor) bool {
     return true
 }
@@ -40,4 +43,7 @@ func (c *Component) CreateElement(key ComponentKey, componentBuilder func(ICompo
     c.componentCache[key.String()] = component
 
     return component
+}
+func (c *Component) clearComponentFromCache(key ComponentKey) {
+    delete(c.componentCache, key.String())
 }

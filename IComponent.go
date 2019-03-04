@@ -23,4 +23,5 @@ type IComponent interface {
     ComponentWillUnmount(processor IComponentProcessor)
 
     getParent() IComponentProcessor
+    clearComponentFromCache(key ComponentKey)
 }

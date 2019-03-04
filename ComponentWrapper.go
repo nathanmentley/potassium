@@ -85,6 +85,7 @@ func (c *ComponentWrapper) updateChildren(children []IComponentProcessor) {
 
     for _, child := range toUnmount {
         child.unmount()
+        c.component.clearComponentFromCache(child.GetKey())
 
         if c.toolkit != nil {
             c.toolkit.Unmount(c, child)
@@ -143,6 +144,7 @@ func (c *ComponentWrapper) render() *RenderResult {
 
             for _, child := range toUnmount {
                 child.unmount()
+                c.component.clearComponentFromCache(child.GetKey())
 
                 if c.toolkit != nil {
                     c.toolkit.Unmount(c, child)
@@ -161,6 +163,7 @@ func (c *ComponentWrapper) unmount() {
     if c.previousResult != nil {
         for _, child := range c.previousResult.Children {
             child.unmount()
+            c.component.clearComponentFromCache(child.GetKey())
 
             if c.toolkit != nil {
                 c.toolkit.Unmount(c, child)
