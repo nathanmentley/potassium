@@ -14,7 +14,6 @@ import (
     "testing"
 )
 
-
 func TestComponentWrapperGetParent(t *testing.T) {
     component := NewComponent(nil)
     props := make(map[string]interface{})
