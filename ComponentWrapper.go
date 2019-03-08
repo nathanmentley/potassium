@@ -13,7 +13,7 @@ package potassium
 type ComponentWrapper struct {
     key ComponentKey                                        //unique random id (used to keep track in dom)
     componentBuilder func(IComponentProcessor) IComponent   //logic to create instances of the component
-    props IProps                                            //current props value
+    props map[string]interface{}                            //current props value
     children []IComponentProcessor                          //all children instances
 
     toolkit IAppToolkit                                     //a reference to the toolkit being used to build the gui
@@ -22,7 +22,7 @@ type ComponentWrapper struct {
     previousResult *RenderResult                            //last result (used to return the previous result if there is no reason to update)
 }
 
-func NewComponentWrapper(key ComponentKey, componentBuilder func(IComponentProcessor) IComponent, props IProps, children []IComponentProcessor) IComponentProcessor {
+func NewComponentWrapper(key ComponentKey, componentBuilder func(IComponentProcessor) IComponent, props map[string]interface{}, children []IComponentProcessor) IComponentProcessor {
     return &ComponentWrapper{key, componentBuilder, props, children, nil, nil, nil, nil}
 }
 
@@ -41,7 +41,7 @@ func (c *ComponentWrapper) SetState(state IState) {
 func (c *ComponentWrapper) GetState() IState {
     return c.state
 }
-func (c *ComponentWrapper) GetProps() IProps {
+func (c *ComponentWrapper) GetProps() map[string]interface{} {
     return c.props
 }
 func (c *ComponentWrapper) GetChildren() []IComponentProcessor {
@@ -60,7 +60,7 @@ func (c *ComponentWrapper) GetKey() ComponentKey {
     return c.key
 }
 
-func (c *ComponentWrapper) setProps(props IProps) {
+func (c *ComponentWrapper) setProps(props map[string]interface{}) {
     c.props = props
 }
 

@@ -11,7 +11,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 package potassium
 
 type IComponent interface {
-    SetInitialState(props IProps) IState
+    SetInitialState(props map[string]interface{}) IState
 
     ComponentDidMount(processor IComponentProcessor)
 

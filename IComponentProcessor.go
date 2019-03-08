@@ -13,13 +13,13 @@ package potassium
 type IComponentProcessor interface {
     SetState(state IState)
     GetState() IState
-    GetProps() IProps
+    GetProps() map[string]interface{}
     GetChildren() []IComponentProcessor
     GetParent() IComponentProcessor
     GetComponent() IComponent
     GetKey() ComponentKey
     
-    setProps(props IProps)
+    setProps(props map[string]interface{})
     updateChildren(children []IComponentProcessor)
 
     mount(parent IComponentProcessor, toolkit IAppToolkit) bool

@@ -18,7 +18,7 @@ func NewComponent(parent IComponentProcessor) Component {
     return Component{parent, make(map[string]IComponentProcessor)}
 }
 
-func (c *Component) SetInitialState(props IProps) IState {
+func (c *Component) SetInitialState(props map[string]interface{}) IState {
     return EmptyState{}
 }
 func (c *Component) ShouldComponentUpdate(processor IComponentProcessor) bool {
@@ -32,7 +32,7 @@ func (c *Component) getParent() IComponentProcessor {
     return c.parent
 }
 
-func (c *Component) CreateElement(key ComponentKey, componentBuilder func(IComponentProcessor) IComponent, props IProps, children []IComponentProcessor) IComponentProcessor {
+func (c *Component) CreateElement(key ComponentKey, componentBuilder func(IComponentProcessor) IComponent, props map[string]interface{}, children []IComponentProcessor) IComponentProcessor {
     if component, ok := c.componentCache[key.String()]; ok {
         component.setProps(props)
         component.updateChildren(children)

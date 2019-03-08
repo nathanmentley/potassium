@@ -11,7 +11,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 package potassium
 
 //Mock Classes
-type MockProps struct {}
 type MockState struct {}
 
 type MockComponentProcessor struct {
@@ -19,13 +18,13 @@ type MockComponentProcessor struct {
 }
 func (m *MockComponentProcessor) SetState(state IState) {}
 func (m *MockComponentProcessor) GetState() IState { return nil }
-func (m *MockComponentProcessor) GetProps() IProps { return nil }
+func (m *MockComponentProcessor) GetProps() map[string]interface{} { return nil }
 func (m *MockComponentProcessor) GetChildren() []IComponentProcessor { return nil }
 func (m *MockComponentProcessor) GetParent() IComponentProcessor { return nil }
 func (m *MockComponentProcessor) GetComponent() IComponent { return nil }
 func (m *MockComponentProcessor) GetKey() ComponentKey { return NewComponentKey(m.key) }
 
-func (m *MockComponentProcessor) setProps(props IProps) {}
+func (m *MockComponentProcessor) setProps(props map[string]interface{}) {}
 func (m *MockComponentProcessor) updateChildren(children []IComponentProcessor) {}
 
 func (m *MockComponentProcessor) mount(parent IComponentProcessor, toolkit IAppToolkit) bool { return true }
@@ -35,7 +34,7 @@ func (m *MockComponentProcessor) unmount() {}
 type MockComponent struct {
     Component
 }
-func (m *MockComponent) SetInitialState(props IProps) IState { return &MockState{} }
+func (m *MockComponent) SetInitialState(props map[string]interface{}) IState { return &MockState{} }
 func (m *MockComponent) Render(processor IComponentProcessor) *RenderResult { return &RenderResult{[]IComponentProcessor{}} }
 func NewMockComponent(parent IComponentProcessor) IComponent {
     return &MockComponent{NewComponent(parent)}

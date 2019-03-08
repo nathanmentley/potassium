@@ -30,11 +30,13 @@ func TestComponentGetParent(t *testing.T) {
 func TestComponentCreateElementCache(t *testing.T) {
     component := NewComponent(nil)
 
-    childComponent1 := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, &MockProps{}, []IComponentProcessor{})
-    childComponent2 := component.CreateElement(NewComponentKey("TestKey 2"), NewMockComponent, &MockProps{}, []IComponentProcessor{})
+    props := make(map[string]interface{})
 
-    childComponent1Expected := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, &MockProps{}, []IComponentProcessor{})
-    childComponent2Expected := component.CreateElement(NewComponentKey("TestKey 2"), NewMockComponent, &MockProps{}, []IComponentProcessor{})
+    childComponent1 := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, props, []IComponentProcessor{})
+    childComponent2 := component.CreateElement(NewComponentKey("TestKey 2"), NewMockComponent, props, []IComponentProcessor{})
+
+    childComponent1Expected := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, props, []IComponentProcessor{})
+    childComponent2Expected := component.CreateElement(NewComponentKey("TestKey 2"), NewMockComponent, props, []IComponentProcessor{})
 
     if childComponent1 != childComponent1Expected {
         t.Errorf("Component.CreateElement should recycle components with the same key")
