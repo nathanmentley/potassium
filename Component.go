@@ -10,12 +10,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 package potassium
 
+import (
+    "strconv"
+    "reflect"
+    "runtime"
+)
+
 type Component struct {
     parent IComponentProcessor
     componentCache map[string]IComponentProcessor
+    elementCounter int
 }
 func NewComponent(parent IComponentProcessor) Component {
-    return Component{parent, make(map[string]IComponentProcessor)}
+    return Component{parent, make(map[string]IComponentProcessor), 0}
 }
 
 func (c *Component) SetInitialState(props map[string]interface{}) IState {
@@ -24,26 +31,44 @@ func (c *Component) SetInitialState(props map[string]interface{}) IState {
 func (c *Component) ShouldComponentUpdate(processor IComponentProcessor) bool {
     return true
 }
-func (c *Component) ComponentDidMount(processor IComponentProcessor) {}
-func (c *Component) ComponentWillUpdate(processor IComponentProcessor) {}
+func (c *Component) ComponentDidMount(processor IComponentProcessor) {
+    c.elementCounter = 0
+}
+func (c *Component) ComponentWillUpdate(processor IComponentProcessor) {
+    c.elementCounter = 0
+}
 func (c *Component) ComponentDidUpdate(processor IComponentProcessor) {}
 func (c *Component) ComponentWillUnmount(processor IComponentProcessor) {}
 func (c *Component) getParent() IComponentProcessor {
     return c.parent
 }
 
-func (c *Component) CreateElement(key ComponentKey, componentBuilder func(IComponentProcessor) IComponent, props map[string]interface{}, children []IComponentProcessor) IComponentProcessor {
+func (c *Component) CreateElement(componentBuilder func(IComponentProcessor) IComponent, props map[string]interface{}, children []IComponentProcessor) IComponentProcessor {
+    c.elementCounter++
+
+    key := newComponentKey(getFunctionName(componentBuilder) + strconv.Itoa(c.elementCounter))
+    if val, ok := props["key"]; ok {
+        if str, ok := val.(string); ok {
+            key = newComponentKey(str)
+        }
+    }
+
     if component, ok := c.componentCache[key.String()]; ok {
         component.setProps(props)
         component.updateChildren(children)
         return component
     }
-        
-    component := NewComponentWrapper(key, componentBuilder, props, children)
+
+    component := newComponentWrapper(key, componentBuilder, props, children)
     c.componentCache[key.String()] = component
 
     return component
 }
-func (c *Component) clearComponentFromCache(key ComponentKey) {
+func (c *Component) clearComponentFromCache(key componentKey) {
     delete(c.componentCache, key.String())
+}
+
+
+func getFunctionName(i interface{}) string {
+    return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
 }

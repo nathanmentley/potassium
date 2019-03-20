@@ -10,14 +10,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 package potassium
 
-type ComponentKey struct {
+type componentKey struct {
     key string
 }
 
-func NewComponentKey(key string) ComponentKey {
-    return ComponentKey{key}
+func newComponentKey(key string) componentKey {
+    return componentKey{key}
 }
 
-func (c ComponentKey) String() string {
+func (c componentKey) String() string {
     return c.key
 }

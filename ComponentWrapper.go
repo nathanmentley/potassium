@@ -11,7 +11,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 package potassium
 
 type ComponentWrapper struct {
-    key ComponentKey                                        //unique random id (used to keep track in dom)
+    key componentKey                                        //unique random id (used to keep track in dom)
     componentBuilder func(IComponentProcessor) IComponent   //logic to create instances of the component
     props map[string]interface{}                            //current props value
     children []IComponentProcessor                          //all children instances
@@ -22,7 +22,12 @@ type ComponentWrapper struct {
     previousResult *RenderResult                            //last result (used to return the previous result if there is no reason to update)
 }
 
-func NewComponentWrapper(key ComponentKey, componentBuilder func(IComponentProcessor) IComponent, props map[string]interface{}, children []IComponentProcessor) IComponentProcessor {
+func NewComponentWrapper(componentBuilder func(IComponentProcessor) IComponent, props map[string]interface{}, children []IComponentProcessor) IComponentProcessor {
+    key := newComponentKey("")
+    return &ComponentWrapper{key, componentBuilder, props, children, nil, nil, nil, nil}
+}
+
+func newComponentWrapper(key componentKey, componentBuilder func(IComponentProcessor) IComponent, props map[string]interface{}, children []IComponentProcessor) IComponentProcessor {
     return &ComponentWrapper{key, componentBuilder, props, children, nil, nil, nil, nil}
 }
 
@@ -56,17 +61,17 @@ func (c *ComponentWrapper) GetParent() IComponentProcessor {
 func (c *ComponentWrapper) GetComponent() IComponent {
     return c.component
 }
-func (c *ComponentWrapper) GetKey() ComponentKey {
+
+func (c *ComponentWrapper) getKey() componentKey {
     return c.key
 }
-
 func (c *ComponentWrapper) setProps(props map[string]interface{}) {
     c.props = props
 }
 
 func isValueInList(value IComponentProcessor, list []IComponentProcessor) bool {
     for _, v := range list {
-        if v.GetKey().String() == value.GetKey().String() {
+        if v.getKey().String() == value.getKey().String() {
             return true
         }
     }
@@ -85,7 +90,7 @@ func (c *ComponentWrapper) updateChildren(children []IComponentProcessor) {
 
     for _, child := range toUnmount {
         child.unmount()
-        c.component.clearComponentFromCache(child.GetKey())
+        c.component.clearComponentFromCache(child.getKey())
 
         if c.toolkit != nil {
             c.toolkit.Unmount(c, child)
@@ -144,7 +149,7 @@ func (c *ComponentWrapper) render() *RenderResult {
 
             for _, child := range toUnmount {
                 child.unmount()
-                c.component.clearComponentFromCache(child.GetKey())
+                c.component.clearComponentFromCache(child.getKey())
 
                 if c.toolkit != nil {
                     c.toolkit.Unmount(c, child)
@@ -163,7 +168,7 @@ func (c *ComponentWrapper) unmount() {
     if c.previousResult != nil {
         for _, child := range c.previousResult.Children {
             child.unmount()
-            c.component.clearComponentFromCache(child.GetKey())
+            c.component.clearComponentFromCache(child.getKey())
 
             if c.toolkit != nil {
                 c.toolkit.Unmount(c, child)

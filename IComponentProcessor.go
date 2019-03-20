@@ -17,8 +17,8 @@ type IComponentProcessor interface {
     GetChildren() []IComponentProcessor
     GetParent() IComponentProcessor
     GetComponent() IComponent
-    GetKey() ComponentKey
     
+    getKey() componentKey
     setProps(props map[string]interface{})
     updateChildren(children []IComponentProcessor)
 

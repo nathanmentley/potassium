@@ -22,8 +22,8 @@ func (m *MockComponentProcessor) GetProps() map[string]interface{} { return nil 
 func (m *MockComponentProcessor) GetChildren() []IComponentProcessor { return nil }
 func (m *MockComponentProcessor) GetParent() IComponentProcessor { return nil }
 func (m *MockComponentProcessor) GetComponent() IComponent { return nil }
-func (m *MockComponentProcessor) GetKey() ComponentKey { return NewComponentKey(m.key) }
 
+func (m *MockComponentProcessor) getKey() componentKey { return newComponentKey(m.key) }
 func (m *MockComponentProcessor) setProps(props map[string]interface{}) {}
 func (m *MockComponentProcessor) updateChildren(children []IComponentProcessor) {}
 

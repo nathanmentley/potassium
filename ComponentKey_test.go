@@ -16,7 +16,7 @@ import (
 
 func TestComponentKeyKeepsValue(t *testing.T) {
     const expected = "39.0983"
-    key := NewComponentKey(expected)
+    key := newComponentKey(expected)
 
     if key.String() != expected {
         t.Errorf("Expected Key: %v\nGot: %v", expected, key.String())

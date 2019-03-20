@@ -17,7 +17,7 @@ import (
 func TestComponentWrapperGetParent(t *testing.T) {
     component := NewComponent(nil)
     props := make(map[string]interface{})
-    componentWrapper := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, props, []IComponentProcessor{})
+    componentWrapper := component.CreateElement(NewMockComponent, props, []IComponentProcessor{})
 
     if componentWrapper.GetParent() != nil {
         t.Errorf("Expected component.getParent() to match passed in parent processor.")
@@ -27,7 +27,7 @@ func TestComponentWrapperGetParent(t *testing.T) {
 func TestComponentWrapperGetProps(t *testing.T) {
     component := NewComponent(nil)
     props := map[string]interface{}{}
-    componentWrapper := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, props, []IComponentProcessor{})
+    componentWrapper := component.CreateElement(NewMockComponent, props, []IComponentProcessor{})
 
     if reflect.DeepEqual(componentWrapper.GetProps(), props) {
         t.Errorf("Expected component.GetProps() should get the props.")

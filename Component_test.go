@@ -32,11 +32,11 @@ func TestComponentCreateElementCache(t *testing.T) {
 
     props := make(map[string]interface{})
 
-    childComponent1 := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, props, []IComponentProcessor{})
-    childComponent2 := component.CreateElement(NewComponentKey("TestKey 2"), NewMockComponent, props, []IComponentProcessor{})
+    childComponent1 := component.CreateElement(NewMockComponent, props, []IComponentProcessor{})
+    childComponent2 := component.CreateElement(NewMockComponent, props, []IComponentProcessor{})
 
-    childComponent1Expected := component.CreateElement(NewComponentKey("TestKey 1"), NewMockComponent, props, []IComponentProcessor{})
-    childComponent2Expected := component.CreateElement(NewComponentKey("TestKey 2"), NewMockComponent, props, []IComponentProcessor{})
+    childComponent1Expected := component.CreateElement(NewMockComponent, props, []IComponentProcessor{})
+    childComponent2Expected := component.CreateElement(NewMockComponent, props, []IComponentProcessor{})
 
     if childComponent1 != childComponent1Expected {
         t.Errorf("Component.CreateElement should recycle components with the same key")
